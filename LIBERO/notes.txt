@@ -1,0 +1,5 @@
+To intall libero on github codespace
+pip install lerobot
+pip install --no-build-isolation egl_probe
+pip install --no-build-isolation hf-egl-probe
+pip install "lerobot[libero]"
