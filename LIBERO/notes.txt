@@ -1,5 +1,10 @@
 To intall libero on github codespace
 pip install lerobot
+sudo apt-get update && sudo apt-get install -y cmake build-essential
+pip uninstall -y cmake
+hash -r
 pip install --no-build-isolation egl_probe
 pip install --no-build-isolation hf-egl-probe
 pip install "lerobot[libero]"
+sudo apt-get install -y libgl1 libegl1
+python -c "from lerobot.envs.libero import LiberoEnv; print('libero ok')" # Just to check

@@ -2,17 +2,27 @@
 import os
 os.environ["MUJOCO_GL"] = "egl"  # headless rendering on Linux
 
+from libero.libero import benchmark
 from lerobot.envs.libero import LiberoEnv
-import numpy as np
 
-# LIBERO suites: libero_spatial, libero_object, libero_goal, libero_10, libero_90
-# We pick libero_spatial — 10 tasks about spatial reasoning, the smallest suite.
-env = LiberoEnv(task="libero_spatial", task_id=0, seed=0)
+# 1. Get the task suite (a benchmark object that holds all 10 spatial tasks)
+task_suite_name = "libero_spatial"
+benchmark_dict = benchmark.get_benchmark_dict()
+task_suite = benchmark_dict[task_suite_name]()
 
+# 2. Build the LeRobot wrapper around task 0 of that suite
+env = LiberoEnv(
+    task_suite=task_suite,
+    task_id=0,
+    task_suite_name=task_suite_name,
+)
+
+# 3. Reset and step
 obs, info = env.reset(seed=0)
 print(f"obs keys: {list(obs.keys())}")
 for k, v in obs.items():
-    print(f"  {k}: shape={getattr(v, 'shape', None)}")
+    shape = getattr(v, "shape", None)
+    print(f"  {k}: shape={shape}")
 print(f"action space: {env.action_space}")
 
 for step in range(20):
